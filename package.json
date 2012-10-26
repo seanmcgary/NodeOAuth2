@@ -1,0 +1,32 @@
+{
+  "name": "NodeFBAuth",
+  "preferGlobal": "true",
+  "version": "0.0.1",
+  "author": "Sean McGary <sean@klout.com>",
+  "description": "Facebook auth module for NodeJS",
+  "contributors": [ 
+    {
+      "name": "Sean McGary",
+      "email": "sean@klout.com"
+    } 
+  ],
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [
+    "facebook",
+    "oauth"
+  ],
+  "dependencies" : {
+    "underscore": "*",
+    "express": "*",
+    "redis": "*",
+    "connect-redis": "*",
+    "hashlib2": "*"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=0.8"
+  }
+}
