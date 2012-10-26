@@ -1,0 +1,92 @@
+# NodeFBAuth
+
+Authentication for Facebook using OAuth2. Authenticates the user and returns their access_token and basic user information.
+
+## Dependencies
+
+- [underscore](https://github.com/documentcloud/underscore/)
+- [express](https://github.com/visionmedia/express)
+- [redis](https://github.com/mranney/node_redis/)
+- [connect-redis](https://github.com/visionmedia/connect-redis)
+- [hashlib2](https://github.com/karlseguin/hashlib)
+
+## Example
+
+NodeFBAuth was written with the intention of being used with ExpressJS.
+
+### Initialization options
+
+```
+{
+	// REQUIRED
+	app_id:						Your facebook app secret
+	app_secret:					Your facebook app secret
+	app: 						Express app instance
+	permissions: 				Comma seperated list of facebook permissions
+	base_url: 					Base URL of your site/app
+	
+	// OPTIONAL
+	callback_path:  			The path you want facebook to redirect to.
+	oauth_complete_redirect:	Callback function OR a path (string) of where to redirect to	
+	fb_auth_path: 				Entry point to start OAuth process. Defaults to /auth/facebook
+}
+
+```
+
+### Authentication Flow
+
+```
+- User visits /auth/facebook 
+- Redirects to Facebook
+- User returns from facebook through /oauth/facebook
+- Process success or failure
+- Redirect to / or execute callback function
+```
+
+
+### Full example
+
+```
+var express 		= require('express'),
+	app 			= express(),
+	nodeFbAuth 		= new require('../lib/nodeFbAuth')(),
+	redis_store		= require('connect-redis')(express);
+
+var fb_data = {
+	app_id			:'facebook-app-id',
+	app_secret		:'facebook-app-secret',
+	base_url 		:'http://your-callback-url',
+	permissions		:'list,of,permissions'
+};
+
+app.configure(function(){
+	app.use(express.cookieParser('somesecretkey'));
+	app.use(express.session({
+			secret: 'secretsessionkey',
+			store: new redis_store({
+				host: '127.0.0.1',
+				port: '6379',
+				db: 1,
+				prefix: 'fb_auth'
+			})
+		}
+	));
+});
+
+// ----------------------------------------------------
+// -- Create and initialize NodeFBAuth
+// ----------------------------------------------------
+nodeFbAuth.initialize({
+	app_id: 		fb_data.app_id, 
+	app_secret: 	fb_data.app_secret, 
+	base_url: 		fb_data.base_url,
+	permissions: 	fb_data.permissions,
+	app: 			app
+});
+
+app.get('/', function(req, res){
+	res.json(req.session);
+});
+
+app.listen(4000);
+```

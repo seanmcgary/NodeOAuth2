@@ -4,9 +4,10 @@ var express 		= require('express'),
 	redis_store     = require('connect-redis')(express);
 
 var fb_data = {
-	app_id: '434094643315729',
-	app_secret: 'cd787c75f7c5b731479db8c96f9cca14',
-	base_url: 'http://oauth.dev.klout.com:4000'
+	app_id: 		'facebook-app-id',
+	app_secret: 	'facebook-app-secret',
+	base_url: 		'http://your-callback-url',
+	permissions: 	'list,of,permissions'
 };
 
 app.configure(function(){
@@ -23,11 +24,13 @@ app.configure(function(){
 	));
 });
 
+// this will initialize the proper facebook routes
+// for express
 nodeFbAuth.initialize({
 	app_id: 		fb_data.app_id, 
 	app_secret: 	fb_data.app_secret, 
 	base_url: 		fb_data.base_url,
-	permissions: 	'email,read_stream,offline_access',
+	permissions: 	fb_data.permissions,
 	app: 			app
 });
 
