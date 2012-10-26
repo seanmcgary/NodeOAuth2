@@ -24,14 +24,12 @@ app.configure(function(){
 });
 
 nodeFbAuth.initialize({
-	app_id: fb_data.app_id, 
-	app_secret: fb_data.app_secret, 
-	base_url: fb_data.base_url,
-	permissions: 'email,read_stream,offline_access',
-	app: app
-
+	app_id: 		fb_data.app_id, 
+	app_secret: 	fb_data.app_secret, 
+	base_url: 		fb_data.base_url,
+	permissions: 	'email,read_stream,offline_access',
+	app: 			app
 });
-
 
 app.get('/', function(req, res){
 	res.json(req.session);
