@@ -2,6 +2,9 @@
 
 Authentication for Facebook using OAuth2. Authenticates the user and returns their access_token and basic user information.
 
+*NOTE*: Does not provide a session system to provide a drop-in authentication solution. Most other Facebook node modules do
+this already; this library simply provides a way to authenticate. Session/account management is up to you to implement.
+
 ## Dependencies
 
 - [underscore](https://github.com/documentcloud/underscore/)
