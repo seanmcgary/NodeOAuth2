@@ -1,6 +1,6 @@
-# NodeFBAuth
+# NodeOAuth2
 
-Authentication for Facebook using OAuth2. Authenticates the user and returns their access_token and basic user information.
+Authentication for Facebook and Google using OAuth2. Authenticates the user and returns their access_token and basic user information.
 
 *NOTE*: Does not provide a session system to provide a drop-in authentication solution. Most other Facebook node modules do
 this already; this library simply provides a way to authenticate. Session/account management is up to you to implement.
@@ -15,7 +15,7 @@ this already; this library simply provides a way to authenticate. Session/accoun
 
 ## Example
 
-NodeFBAuth was written with the intention of being used with ExpressJS.
+NodeOAuth2 was written with the intention of being used with ExpressJS.
 
 ### Initialization options
 
@@ -31,7 +31,7 @@ NodeFBAuth was written with the intention of being used with ExpressJS.
 	// OPTIONAL
 	callback_path:  			The path you want facebook to redirect to.
 	oauth_complete_redirect:	Callback function OR a path (string) of where to redirect to	
-	fb_auth_path: 				Entry point to start OAuth process. Defaults to /auth/facebook
+	auth_path: 					Entry point to start OAuth process. Defaults to /auth/facebook
 }
 
 ```
@@ -52,15 +52,8 @@ NodeFBAuth was written with the intention of being used with ExpressJS.
 ```
 var express 		= require('express'),
 	app 			= express(),
-	nodeFbAuth 		= new require('../lib/nodeFbAuth')(),
+	nodeOAuth 		= require('NodeOAuth2'),
 	redis_store		= require('connect-redis')(express);
-
-var fb_data = {
-	app_id			:'facebook-app-id',
-	app_secret		:'facebook-app-secret',
-	base_url 		:'http://your-callback-url',
-	permissions		:'list,of,permissions'
-};
 
 app.configure(function(){
 	app.use(express.cookieParser('somesecretkey'));
@@ -70,20 +63,49 @@ app.configure(function(){
 				host: '127.0.0.1',
 				port: '6379',
 				db: 1,
-				prefix: 'fb_auth'
+				prefix: '_auth'
 			})
 		}
 	));
 });
 
+var google_data = {
+	app_id			:'google-app-id',
+	app_secret		:'google-app-secret',
+	base_url 		:'http://your-callback-url',
+	permissions		:'list+of+scope+permissions'
+};
+
+var fb_data = {
+	app_id			:'facebook-app-id',
+	app_secret		:'facebook-app-secret',
+	base_url 		:'http://your-callback-url',
+	permissions		:'list,of,permissions'
+};
+
 // ----------------------------------------------------
-// -- Create and initialize NodeFBAuth
+// -- Create and initialize handler for Facebook
 // ----------------------------------------------------
+var nodeFbAuth = nodeOauth.createHandler('facebook');
+
 nodeFbAuth.initialize({
 	app_id: 		fb_data.app_id, 
 	app_secret: 	fb_data.app_secret, 
 	base_url: 		fb_data.base_url,
 	permissions: 	fb_data.permissions,
+	app: 			app
+});
+
+// ----------------------------------------------------
+// -- Create and initialize handler for Google
+// ----------------------------------------------------
+var nodeGoogleAuth = nodeOauth.createHandler('google');
+
+nodeGoogleAuth.initialize({
+	app_id: 		google_data.app_id, 
+	app_secret: 	google_data.app_secret, 
+	base_url: 		google_data.base_url,
+	permissions: 	google_data.permissions,
 	app: 			app
 });
 

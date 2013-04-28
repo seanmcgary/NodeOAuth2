@@ -1,1 +1,1 @@
-module.exports = require('./lib/NodeFBAuth');
+module.exports = require('./lib/NodeOAuth2');
