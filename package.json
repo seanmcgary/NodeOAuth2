@@ -1,7 +1,7 @@
 {
   "name": "nodeoauth2",
   "preferGlobal": "true",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Sean McGary <sean@seanmcgary.com>",
   "description": "Facebook and Google auth module for NodeJS",
   "contributors": [ 
