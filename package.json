@@ -1,7 +1,7 @@
 {
   "name": "nodeoauth2",
   "preferGlobal": "true",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Sean McGary <sean@seanmcgary.com>",
   "description": "Facebook and Google auth module for NodeJS",
   "contributors": [ 
@@ -24,7 +24,7 @@
     "express": "*",
     "redis": "*",
     "connect-redis": "*",
-    "hashlib2": "*"
+    "hashlib": "git://github.com/sigsegv42/hashlib.git#master"
   },
   "license": "MIT",
   "engines": {
